@@ -1,7 +1,10 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from .models import tbl_authenticate
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 
 
@@ -14,9 +17,7 @@ def loginPage(request):
 def registerPage(request):
   return render(request, 'register.html')
 
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import redirect
-from django.contrib import messages
+
 
 @csrf_protect
 def loginUser(request):
@@ -24,14 +25,37 @@ def loginUser(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
 
-    return redirect('index')
+    try:
+      user = tbl_authenticate.empAuth_objects.get(username = username, password = password)
+      if user is not None:
+         return redirect('index')
+      else:
+        print("someone tried to login.")
+
+        return redirect('index')
+    except Exception as identifier:
+       return redirect('/')
+  else:
+    return render(request, 'index.html')
 @csrf_protect
 def registerUser(request):
   if request.method == "POST":
     username = request.POST.get('username')
     password = request.POST.get('password')
+    try:
+      user = tbl_authenticate.empAuth_objects.get(username = username, password = password)
+      if user is not None:
+         return redirect('index')
+      else:
+        print("someone tried to login.")
+
+        return redirect('index')
+    except Exception as identifier:
+       return redirect('/')
+  else:
+    return render(request, 'index.html')
     
-    return redirect('index')
+    
 
 
 
