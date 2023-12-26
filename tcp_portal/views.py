@@ -57,6 +57,13 @@ def registerUser(request):
     
     
 
+def reportPage(request):
+  return render(request, 'reportPage.html')
+
+def searchPage(request, ip):
+  return render(request, 'search.html', {'ip': ip})
+
+
 
 
 

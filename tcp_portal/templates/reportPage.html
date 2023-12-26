@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <label for="ip">IP Address:</label><br />
+  <input type="text" id="ip" name="ip" required /><br />
+  <label for="comment">Comment:</label><br />
+  <textarea id="comment" name="comment" required></textarea><br />
+  <label for="image">Upload image:</label><br />
+  <input type="file" id="image" name="image" /><br />
+  <input type="submit" value="Submit" />
+</form>
+{% endblock %}

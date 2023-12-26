@@ -1,37 +1,40 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}" />
-  </head>
-  <body>
-    <nav class="navbar">
-      <h2>TCP Portal</h2>
-      <div class="menu">
-        <a href="{% url 'loginPage' %}">Login</a>
-        <a href="{% url 'registerPage' %}">Register</a>
-      </div>
-      {% comment %}
-      <p>Welcome, Rabin</p>
-      {% endcomment %}
-    </nav>
-    <div class="wrapper">
-      <div class="container">
-        <h3>Enter IP Address</h3>
-        <div class="ip_search">
-          <input
-            type="text"
-            id="ip_address"
-            name="ip_address"
-            placeholder="Enter IP Address"
-            required
-          /><br />
-          <button>Check</button>
-        </div>
+{% extends "base.html" %} {% block content %}
+
+<div class="main__heading">
+  <h1><span>TCP</span> Portal</h1>
+  <p>making the internet safer, one IP at a time</p>
+</div>
+<div class="wrapper">
+  <div class="container">
+    <div class="card">
+      <h2>Enter IP Address</h2>
+      <p>
+        <strong>Check the report history</strong> of any IP address to see if
+        anyone else has reported malicious activities.
+      </p>
+      <div class="ip_search">
+        <input
+          type="text"
+          id="ip_address"
+          name="ip_address"
+          placeholder="Enter IP Address"
+          required
+        /><br />
+        <button onclick="location.replace(`/search/${ip_address.value}`)">
+          Check
+        </button>
       </div>
     </div>
-  </body>
-</html>
+    <div class="card">
+      <h2>Report IP Address</h2>
+      <p>
+        <strong>Report abusive IPs</strong> engaging in hacking attempts or
+        other malicious behavior and help fellow sysadmins!
+      </p>
+      <div class="ip_report">
+        <a href="{% url 'reportPage' %}">Report IP</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
