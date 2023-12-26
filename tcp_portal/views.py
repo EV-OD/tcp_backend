@@ -149,7 +149,8 @@ def setAuthFlag(request):
             new_ip.set_authflag_accounts([user])
             new_ip.save()
         return HttpResponse(status=200)
-    
+
+@csrf_exempt
 def getFlag(request):
     if request.method == "POST":
         request_data = json.loads(request.body.decode('utf-8'))
@@ -160,6 +161,18 @@ def getFlag(request):
             return HttpResponse(json.dumps(model_to_dict(existing_ip)))
         else:
             return HttpResponse(0)
+        
+@csrf_exempt
+def checkIp(request):
+    if request.method == "POST":
+        request_data = json.loads(request.body.decode('utf-8'))
+
+        ip = request_data.get('ip')
+        existing_ip = IP.objects.filter(overall_ip=ip).first()
+        if existing_ip:
+            return HttpResponse("true")
+        else:
+            return HttpResponse("false")
 
 def getFlagWithIp(ip):
     existing_ip = IP.objects.filter(overall_ip=ip).first()
