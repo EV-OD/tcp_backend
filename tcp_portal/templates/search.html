@@ -1,8 +1,9 @@
 {% extends "base.html" %} {% block content %} {% load static %}
+<body>
 <link rel="stylesheet" href="{% static 'search.css' %}" />
 <script defer src="{% static 'js/search.js' %}"></script>
 
-<div class="center_container">
+<div class="center_container" >
   <div class="form_wrapper">
     <div class="search_form">
       <!-- <h3>TCP Portal</h3> -->
@@ -78,5 +79,5 @@
     // const image = imageElt.files[0];
   });
 </script>
-
+</body>
 {% endblock %}

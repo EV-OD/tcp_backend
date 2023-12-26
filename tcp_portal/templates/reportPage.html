@@ -1,5 +1,7 @@
 {% extends "base.html" %} {% block content %} {% load static %}
+<body>
 <link rel="stylesheet" href="{% static 'report.css' %}" />
+
 <div class="form-container">
   {% csrf_token %}
   <label for="ip">IP Address:</label><br />
@@ -45,6 +47,12 @@
         },
         mode: "same-origin",
         body: JSON.stringify({ ip }),
+      }).then(response => {
+        if (response.ok) {
+          displaySuccessMessage("Authentication flag set successfully!");
+        } else {
+          displayErrorMessage("Failed to set authentication flag.");
+        }
       });
     } else {
       let user_ip = "{{request.user}}";
@@ -58,10 +66,45 @@
         mode: "same-origin",
 
         body: JSON.stringify({ ip }),
+      }).then(response => {
+        if (response.ok) {
+          displaySuccessMessage("Public flag set successfully!");
+        } else {
+          displayErrorMessage("Failed to set public flag.");
+        }
       });
     }
 
     // const image = imageElt.files[0];
   });
 </script>
+</body>
 {% endblock %}
+function displaySuccessMessage(message) {
+  
+  const successMessage = document.createElement("div");
+  successMessage.className = "success-message";
+  successMessage.textContent = message;
+
+ 
+  document.body.appendChild(successMessage);
+
+  
+  setTimeout(() => {
+    successMessage.remove();
+  }, 5000); 
+
+function displayErrorMessage(message) {
+  
+  const errorMessage = document.createElement("div");
+  errorMessage.className = "error-message";
+  errorMessage.textContent = message;
+
+ 
+  document.body.appendChild(errorMessage);
+
+  
+  setTimeout(() => {
+    errorMessage.remove();
+  }, 5000); 
+}

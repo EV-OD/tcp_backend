@@ -13,4 +13,5 @@ urlpatterns = [
     path('autoflag/', views.autoflagPage, name='autoflagPage'),
     path('setpublicflag/', views.setPublicFlag, name='setPublicFlag'),
     path('setauthflag/', views.setAuthFlag, name='setauthflag'),
+    # path('reportPage' , views.reportPage, name = 'reportPage'),
 ]
