@@ -2,23 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      process_name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Collapsible Subprocesses</title>
     <style>
-      /* External CSS Styles */
       body {
         font-family: Arial, sans-serif;
-        margin: 20px;
-        padding: 20px;
+        margin: 0;
+        padding: 0;
       }
 
-      .process {
-        margin-left: 20px;
+      #processContainer {
+        background-color: #eaeaea;
+        padding: 20px;
+      }
+      h4 {
+        margin: 0;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #333;
+        color: #fff;
       }
 
       .subprocess-list {
         list-style-type: none;
-        padding-left: 20px;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
       }
 
       .subprocess-list li {
@@ -27,50 +45,101 @@
 
       .subprocess-list .toggle-btn {
         cursor: pointer;
-        text-decoration: underline;
-        color: blue;
+      }
+
+      .process {
+        display: grid;
+        grid-template-columns: 3fr 1fr 1fr;
+        align-items: center;
+        margin: 10px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+
+      .logo {
+        max-width: 30px;
+        max-height: 30px;
+        margin-right: 10px;
+      }
+
+      .subprocess-container {
+        margin-left: 30px;
       }
     </style>
   </head>
   <body>
     <!-- Container for Processes -->
+    <h4>Process</h4>
     <div id="processContainer"></div>
 
     <script>
       // Sample data representing subprocesses
       const processData = [
         {
-          name: "Process 1",
+          process_name: "Process 1",
           pid: "8653",
+          isRunning: true,
+          logo_path: "/img/process1.png",
           subprocesses: [
             {
               pid: "123",
-              name: "Subprocess 1.1",
+              process_name: "Subprocess 1.1",
+              isRunning: true,
+              logo_path: "/img/subprocess1.1.png",
               subprocesses: [
                 {
-                  name: "Sub-subprocess 1.1.1",
+                  process_name: "Sub-subprocess 1.1.1",
+                  pid: "456",
+                  isRunning: true,
+                  logo_path: "/img/subsubprocess1.1.1.png",
+                  subprocesses: [],
                 },
                 {
-                  name: "Sub-subprocess 1.1.2",
+                  process_name: "Sub-subprocess 1.1.2",
+                  pid: "457",
+                  isRunning: true,
+                  logo_path: "/img/subsubprocess1.1.2.png",
+                  subprocesses: [],
                 },
               ],
             },
             {
-              name: "Subprocess 1.2",
+              process_name: "Subprocess 1.2",
+              pid: "124",
+              isRunning: true,
+              logo_path: "/img/subprocess1.2.png",
+              subprocesses: [],
             },
           ],
         },
         {
-          name: "Process 2",
+          process_name: "Process 2",
+          pid: "8654",
+          isRunning: true,
+          logo_path: "/img/process2.png",
           subprocesses: [
             {
-              name: "Subprocess 2.1",
+              process_name: "Subprocess 2.1",
+              pid: "125",
+              isRunning: true,
+              logo_path: "/img/subprocess2.1.png",
+              subprocesses: [],
             },
             {
-              name: "Subprocess 2.2",
+              process_name: "Subprocess 2.2",
+              pid: "126",
+              isRunning: true,
+              logo_path: "/img/subprocess2.2.png",
               subprocesses: [
                 {
-                  name: "Sub-subprocess 2.2.1",
+                  process_name: "Sub-subprocess 2.2.1",
+                  pid: "458",
+                  isRunning: true,
+                  logo_path: "/img/subsubprocess2.2.1.png",
+                  subprocesses: [],
                 },
               ],
             },
@@ -80,7 +149,15 @@
 
       // Function to recursively generate HTML for subprocesses
       function generateSubprocessHTML(subprocess) {
-        let html = `<li><span class="toggle-btn" onclick="toggleSubprocess(this)">${subprocess.name}</span>`;
+        let html = `<li><div class="toggle-btn process" onclick="toggleSubprocess(this)">
+            <div class="name">${subprocess.process_name}</div class="name">
+            <!-- <span>${subprocess.logo_path}</span> -->
+            <span>${subprocess.pid}</span>
+            <span>${subprocess.isRunning}</span>
+            </div>`;
+        console.log(
+          Object.keys(subprocess).filter((key) => key !== "sub_process")
+        );
 
         if (subprocess.subprocesses && subprocess.subprocesses.length > 0) {
           html += `<div class="process" style="display: none;"><ul class="subprocess-list">`;

@@ -5,7 +5,6 @@ from datetime import datetime
 import winreg
 
 
-    
 
 
 
@@ -57,10 +56,12 @@ class ProcessTreeViewApp:
 
         self.text_area3 = scrolledtext.ScrolledText(right_frame, width=50, height=20)
         self.text_area3.pack(expand=True, fill='both')
+        button_style = {"bg": "#4CAF50", "fg": "white", "font": ("Arial", 12), "border": 0, "padx": 10, "pady": 5}
 
-        update_button = tk.Button(left_frame, text="Kill Process", command=self.kill_process_by_pid(pid))
+
+        update_button = tk.Button(left_frame, text="Kill Process", command=self.kill_process_by_pid(pid), **button_style)
         update_button.pack(pady=10)
-        update_button2 = tk.Button(left_frame, text="Fake Flag")
+        update_button2 = tk.Button(left_frame, text="Fake Flag", **button_style)
         update_button2.pack(pady=10)
         # Replace this with the desired process ID
         self.target_process_id = pid  # Change to your specific process ID
@@ -229,6 +230,6 @@ class ProcessTreeViewApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    pid=9320
+    pid=10580
     app = ProcessTreeViewApp(root,pid)
     root.mainloop()
