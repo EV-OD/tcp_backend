@@ -1,18 +1,17 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
+    <title>Register Page</title>
     <link rel="stylesheet" href="{% static 'login.css' %}" />
   </head>
   <body>
     <div class="wrapper">
       <h1>WELCOME</h1>
       <div class="container">
-        <h3>Login Page</h3>
-        <form action="{% url 'login' %}" method="post">
+        <h3>Register Page</h3>
+        <form action="{% url 'register' %}" method="post">
           {% csrf_token %}
           <input
             type="text"
@@ -22,17 +21,22 @@
             required
           /><br />
           <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="email"
+            required
+          /><br />
+          <input
             type="password"
             id="password"
             name="password"
             placeholder="password"
             required
           /><br />
-          <input type="submit" value="Login" />
+          <input type="submit" value="Register" />
         </form>
-        <p>
-          Don't have an account? <a href="{% url 'register' %}">Register</a>
-        </p>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
       </div>
     </div>
   </body>

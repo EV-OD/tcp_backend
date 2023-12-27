@@ -25,16 +25,16 @@ h3 {
   text-align: center;
   font-family: Arial, sans-serif;
   font-size: 30px;
-  color: #e0e0e0;
-  margin: 10px;
+  color: #555555;
+  margin: 20px;
 }
 .container {
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
   margin: 0 auto;
   background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 5px;
+  padding: 30px;
+  border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -45,22 +45,48 @@ form {
 
 input[type="text"],
 input[type="password"] {
-  margin-bottom: 15px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid rgb(63, 63, 181);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-size: 1.1em;
+}
+
+input::placeholder {
+  text-transform: capitalize;
 }
 
 input[type="submit"] {
   padding: 10px;
+  padding-block: 15px;
   background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 10px;
+  width: 100px;
+  margin-left: auto;
 }
 label {
   display: block;
   font-family: Arial, sans-serif;
   font-size: 14px;
   color: #333;
+  margin: 0;
+}
+
+p {
+  color: #333;
+  font-size: 14px;
+}
+
+a {
+  color: #4caf50;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #45a049;
 }
