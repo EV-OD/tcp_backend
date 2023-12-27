@@ -1,1 +1,53 @@
-
+body {
+  background: linear-gradient(
+    to right top,
+    #766aca,
+    #8c81ca,
+    #a098ca,
+    #b4afc9,
+    #c7c7c7
+  );
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.ip_search {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+}
+.wrapper {
+  width: 100%;
+}
+.container {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  transform: translateY(-120px);
+}
+.ip_search input {
+  font-size: 1.2em;
+  padding: 15px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+.ip_search button {
+  font-size: 1.2em;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  background-color: rgb(62, 154, 62);
+  color: white;
+}
+.container h3 {
+  font-size: 1.4em;
+  font-family: sans-serif;
+  font-weight: 400;
+}
