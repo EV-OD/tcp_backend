@@ -20,6 +20,7 @@ def check_malicious_registry_keys():
                 while True:
                     name, value, _ = winreg.EnumValue(key, index)
                     print(f"  Found: {name} = {value}")
+                    
                     index += 1
             except FileNotFoundError:
                 pass  # No more values
