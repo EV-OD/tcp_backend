@@ -181,14 +181,6 @@ def getFlagWithIp(ip):
     else:
         return False
     
-# def reportPage(request):
-#    if request.method == POST:
-#       messages.success(request, "Ip address is reported.")
-#       return redirect(request, 'index')
-#    else:
-#       return redirect(request, 'reportPage.html')
-
-    
 
 
    
