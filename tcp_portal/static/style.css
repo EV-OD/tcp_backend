@@ -1,0 +1,145 @@
+body {
+  background: rgb(227, 227, 227);
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+}
+.ip_search {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+}
+.wrapper {
+  width: 100%;
+}
+.container {
+  width: 100%;
+  display: flex;
+  padding: 80px;
+  /* transform: translateY(-120px); */
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+.card p {
+  margin-bottom: 15px;
+  font-size: 21px;
+  font-weight: 200;
+  max-width: 500px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.ip_search input {
+  font-size: 1.2em;
+  padding: 15px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.navbar {
+  /* width: 100vw; */
+  height: 70px;
+  background-color: #ffffff;
+  color: #4059a3;
+  display: flex;
+  align-items: center;
+  padding-inline: 20px;
+}
+.navbar h2 {
+  margin-right: auto;
+}
+.ip_search button {
+  font-size: 1.2em;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  background-color: rgb(62, 154, 62);
+  color: white;
+}
+.container h3 {
+  font-size: 1.4em;
+  font-family: sans-serif;
+  font-weight: 400;
+  margin: 10px;
+  margin-top: 100px;
+}
+.container h2 {
+  font-size: 1.5em;
+  font-family: sans-serif;
+  font-weight: 400;
+  margin: 10px;
+  margin-top: 10px;
+}
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 10px;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 1.2em;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.navbar p {
+  background-color: rgba(216, 216, 216, 0.5);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.ip_report {
+  width: 100%;
+}
+.ip_report a {
+  padding: 20px 20px 20px;
+  line-height: 15px;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #158cba;
+  border-color: #127ba3;
+  width: 200px;
+  display: inline-block;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.main__heading * {
+  font-family: sans-serif;
+}
+.main__heading {
+  margin-left: 80px;
+  margin-top: 81px;
+}
+.main__heading h1 {
+  font-size: 3em;
+}
+.main__heading span {
+  background-color: rgb(80, 135, 255);
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: white;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.main__heading p {
+  font-size: 2em;
+  color: gray;
+}

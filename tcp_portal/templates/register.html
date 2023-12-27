@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Page</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>WELCOME</h1>
+      <div class="container">
+        <h3>Register Page</h3>
+        <form action="{% url 'registerUser' %}" method="post">
+          {% csrf_token %}
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="username"
+            required
+          /><br />
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="email"
+            required
+          /><br />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="password"
+            required
+          /><br />
+          <input type="submit" value="Register" />
+        </form>
+        <p>
+          Already have an account? <a href="{% url 'loginPage' %}">Login</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
