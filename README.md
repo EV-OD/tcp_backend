@@ -34,17 +34,17 @@ c. Footprints
   - Create a virtual environment
 
   - Activate the virtual environment
-      #  source venv/bin/activate  # On macOS/Linux
-      # venv\Scripts\activate     # On Windows
+       source venv/bin/activate  # On macOS/Linux
+       venv\Scripts\activate     # On Windows
   - Install dependencies
      # pip install requirements.txt
 
   - Apply migrations
-    # python manage.py makemigrations
-    # python manage.py migrate
+     python manage.py makemigrations
+     python manage.py migrate
 
   - Run the development server
-    # python manage.py runserver
+     python manage.py runserver
 
 ## User Authentication
 
