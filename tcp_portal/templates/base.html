@@ -11,12 +11,16 @@
     <nav class="navbar">
       <h2><a href="{% url 'index' %}">TCP Portal</a></h2>
       <div class="menu">
+        {% if user.is_authenticated %}
+        <div class="user-info">
+          <p>Welcome, {{ user.username }}</p>
+          <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        {% else %}
         <a href="{% url 'loginPage' %}">Login</a>
         <a href="{% url 'registerPage' %}">Register</a>
+        {% endif %}
       </div>
-      {% comment %}
-      <p>Welcome, Rabin</p>
-      {% endcomment %}
     </nav>
     {% block content %}{% endblock content %}
   </body>

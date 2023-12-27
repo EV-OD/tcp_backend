@@ -133,6 +133,10 @@ a {
   color: white;
 }
 
+.user-info {
+  display: flex;
+}
+
 .main__heading p {
   font-size: 2em;
   color: gray;

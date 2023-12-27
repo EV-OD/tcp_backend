@@ -11,7 +11,7 @@
       <h1>WELCOME</h1>
       <div class="container">
         <h3>Register Page</h3>
-        <form action="{% url 'register' %}" method="post">
+        <form action="{% url 'registerUser' %}" method="post">
           {% csrf_token %}
           <input
             type="text"
