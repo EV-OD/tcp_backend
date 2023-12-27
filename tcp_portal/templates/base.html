@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <h2><a href="{% url 'index' %}">TCP Portal</a></h2>
+      <div class="menu">
+        <a href="{% url 'loginPage' %}">Login</a>
+        <a href="{% url 'registerPage' %}">Register</a>
+      </div>
+      {% comment %}
+      <p>Welcome, Rabin</p>
+      {% endcomment %}
+    </nav>
+    {% block content %}{% endblock content %}
+  </body>
+</html>
