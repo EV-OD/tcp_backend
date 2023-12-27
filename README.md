@@ -28,41 +28,35 @@ c. Footprints
   - Checking if an IP exists
 
 ## Installation
- 
-  - Python setup
 
-  - Create a virtual environment
+  1. Clone the repository:
+  
+     ```bash
+     git clone https://github.com/EV-OD/tcp_backend.git
+     cd tcp_backend
+     
+ 2. Install npm dependencies:
+       npm install
+       npm run watch
 
-  - Activate the virtual environment
-       source venv/bin/activate  # On macOS/Linux
-       venv\Scripts\activate     # On Windows
-  - Install dependencies
-     # pip install requirements.txt
+## Usage
+   1. User Authentication
 
-  - Apply migrations
-     python manage.py makemigrations
-     python manage.py migrate
+    - Visit the index.html as home page.
+  
+    - After that visit register page at http://127.0.0.1:8000/register/  to create a new account
+  
+    - Then after registration, you cam log in at http://127.0.0.1:8000/login/ with your credentials.
+  
+    -Once logged in, you will be redirected to the home page at  http://127.0.0.1:8000/ where your username is displayed.
+  
+    - You can log out by visiting http://127.0.0.1:8000/logout/.
 
-  - Run the development server
-     python manage.py runserver
+2. Ip Address Tracking
 
-## User Authentication
-
-  - Visit the index.html as home page.
-
-  - After that visit register page at http://127.0.0.1:8000/register/  to create a new account
-
-  - Then after registration, you cam log in at http://127.0.0.1:8000/login/ with your credentials.
-
-  -Once logged in, you will be redirected to the home page at  http://127.0.0.1:8000/ where your username is displayed.
-
-  - You can log out by visiting http://127.0.0.1:8000/logout/.
-
-## Ip Address Tracking
-
-  - Visit the report page at http://127.0.0.1:8000/report/ to view and interact with IP tracking features.
-
-  - Explore the different functionalities such as autoflagging IPs, setting public flags, setting authentication flags, retrieving flags, and   checking if an IP exists.
+    - Visit the report page at http://127.0.0.1:8000/report/ to view and interact with IP tracking features.
+  
+    - Explore the different functionalities such as autoflagging IPs, setting public flags, setting authentication flags, retrieving flags, and   checking if an IP exists.
 
 ## Contributions
 
