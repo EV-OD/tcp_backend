@@ -25,11 +25,18 @@ class IP(models.Model):
     autoflag_count = models.IntegerField(default=0, null=True, blank=True)
     autoflag_ip = models.TextField(default='[]')
 
+    def serialize_user(self, user):
+        return {'id': user.id, 'username': user.username}
+
+    def deserialize_user(self, data):
+        return User.objects.get(id=data['id'], username=data['username'])
+
     def get_authflag_accounts(self):
-        return json.loads(self.authflag_accounts)
+        return [self.deserialize_user(data) for data in json.loads(self.authflag_accounts)]
 
     def set_authflag_accounts(self, value):
-        self.authflag_accounts = json.dumps(value)
+        serialized_value = [self.serialize_user(user) for user in value]
+        self.authflag_accounts = json.dumps(serialized_value)
 
     def get_publicflag_ip(self):
         return json.loads(self.publicflag_ip)
