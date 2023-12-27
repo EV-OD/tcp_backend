@@ -4,16 +4,21 @@ from pprint import pprint
 from database import Ip,Session
 session=Session()
 import requests
-from plyer import notification
 import json
+import tkinter as tk
+from process_tree import ProcessTreeViewApp
 
-def show_notification(title, message):
-    notification.notify(
-        title=title,
-        message=message,
-        app_icon=None,  
-        timeout=10, 
-    )
+from win10toast_click import ToastNotifier
+
+
+    
+
+def process_tree(pid):
+    def gg():
+        root = tk.Tk()
+        app = ProcessTreeViewApp(root,pid)
+        root.mainloop()
+    return gg
 
 def view_subprocesses_of_pid(parent_pid):
     try:
@@ -52,9 +57,9 @@ def check_ip(ip):
         if response.status_code == 200:
             response_text = str(response.text)
             if response_text.lower() == 'true':
+                print("Panic")
                 return True
             elif response_text.lower() == 'false':
-                print("here")
                 ip = Ip(ip_address=ip, checked=True)
                 session.add(ip)
                 session.commit()
@@ -96,7 +101,8 @@ def main():
                         else:
                             response=check_ip(conn.raddr.ip) 
                         if response==True:
-                            show_notification(f"Flagged IP Detected in {process_name}", f"Moye Moye {conn.raddr.ip}")
+                            toaster = ToastNotifier() 
+                            toaster.show_toast(title=f"Moye Moye with {process_name}",duration=2,threaded=True,callback_on_click=process_tree(conn.pid) )
                             kill_process_by_pid(conn.pid)
                             view_subprocesses_of_pid(conn.pid)
                         
