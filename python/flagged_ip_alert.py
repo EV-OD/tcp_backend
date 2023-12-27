@@ -41,7 +41,7 @@ def get_process_name_by_pid(pid):
         return f"Unknown error: {e}"
 
 def check_ip(ip):
-    url = "http://127.0.0.1:100/check_ip"  # Replace with your server URL
+    url = "http://127.0.0.1:8000/checkip/"  # Replace with your server URL
     data = {"ip": ip}
 
     try:
@@ -65,6 +65,18 @@ def check_ip(ip):
     except requests.RequestException as e:
         print(f"Error sending IP to server: {e}")
 
+def kill_process_by_pid(pid):
+    try:
+        process = psutil.Process(pid)
+        process.terminate()  # Send a termination signal
+        process.wait(timeout=5)  # Wait for the process to terminate (optional)
+        print(f"Process with PID {pid} terminated successfully.")
+    except psutil.NoSuchProcess:
+        print(f"No process found with PID {pid}.")
+    except psutil.AccessDenied:
+        print(f"Access denied to terminate process with PID {pid}.")
+    except Exception as e:
+        print(f"Error terminating process with PID {pid}: {e}")
 
 def main():
     
@@ -79,11 +91,13 @@ def main():
                         process_name=get_process_name_by_pid(conn.pid)
                         for ip in ips:
                             if ip.ip_address == conn.raddr.ip:
+                                response=False
                                 break
                         else:
                             response=check_ip(conn.raddr.ip) 
                         if response==True:
-                            # show_notification(f"Flagged IP Detected in {process_name}", "Hehe")
+                            show_notification(f"Flagged IP Detected in {process_name}", f"Moye Moye {conn.raddr.ip}")
+                            kill_process_by_pid(conn.pid)
                             view_subprocesses_of_pid(conn.pid)
                         
                 except Exception:
