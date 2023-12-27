@@ -1,3 +1,0 @@
-
-def yourfunction():
-    print("lol")

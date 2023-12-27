@@ -5,6 +5,10 @@ from datetime import datetime
 import winreg
 
 
+    
+
+
+
 def get_all_parent_processes(process_id):
     processes = []
     try:
@@ -46,6 +50,10 @@ class ProcessTreeViewApp:
         self.text_area3 = scrolledtext.ScrolledText(right_frame, width=50, height=20)
         self.text_area3.pack(expand=True, fill='both')
 
+        update_button = tk.Button(left_frame, text="Kill Process", command=self.kill_process_by_pid(pid))
+        update_button.pack(pady=10)
+        update_button2 = tk.Button(left_frame, text="Fake Flag")
+        update_button2.pack(pady=10)
         # Replace this with the desired process ID
         self.target_process_id = pid  # Change to your specific process ID
 
@@ -66,7 +74,21 @@ class ProcessTreeViewApp:
         self.update_process_tree()
         self.redg_change()
         self.tcp_connections_made()
-
+    def kill_process_by_pid(self,pid):
+        def haha():
+            try:
+                process = psutil.Process(pid)
+                process.terminate()  # Send a termination signal
+                process.wait(timeout=5)  # Wait for the process to terminate (optional)
+                print(f"Process with PID {pid} terminated successfully.")
+            except psutil.NoSuchProcess:
+                print(f"No process found with PID {pid}.")
+            except psutil.AccessDenied:
+                print(f"Access denied to terminate process with PID {pid}.")
+            except Exception as e:
+                print(f"Error terminating process with PID {pid}: {e}")
+        return haha
+            
     def increase_process_count(self, process_name,pid):
         if process_name in self.process_counts:
             self.process_counts[process_name].add(pid)
@@ -191,6 +213,9 @@ class ProcessTreeViewApp:
 
                 except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess) as e:
                     print(f"Error accessing process with PID {process_pid}: {e}")
+
+
+    
 
 
 
