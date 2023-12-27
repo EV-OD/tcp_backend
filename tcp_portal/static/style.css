@@ -135,6 +135,8 @@ a {
 
 .user-info {
   display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .main__heading p {

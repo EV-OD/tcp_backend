@@ -8,6 +8,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from .models import IP
+
+
+
 
 
 def index(request):
@@ -75,6 +79,48 @@ def reportPage(request):
 def searchPage(request, ip):
   return render(request, 'search.html', {'ip': ip})
 
+def autoflagPage(request):
+    if request.method == "POST":
+        ip = request.POST.get('ip')
+        autoflag_ip = request.POST.get('autoflag_ip')
+        existing_ip = IP.objects.filter(overall_ip=ip).first()
+        if existing_ip:
+            existing_ip.autoflag_count += 1
+            existing_ip.set_autoflag_ip(existing_ip.get_autoflag_ip() + [autoflag_ip])
+            existing_ip.save()
+        else:
+            new_ip = IP(overall_ip=ip, autoflag_count=1)
+            new_ip.set_autoflag_ip([autoflag_ip])
+            new_ip.save()
+
+def setPublicFlag(request):
+    if request.method == "POST":
+        ip = request.POST.get('ip')
+        publicflag_ip = request.POST.get('publicflag_ip')
+        existing_ip = IP.objects.filter(overall_ip=ip).first()
+        if existing_ip:
+            existing_ip.publicflag_count += 1
+            existing_ip.set_publicflag_ip(existing_ip.get_publicflag_ip() + [publicflag_ip])
+            existing_ip.save()
+        else:
+            new_ip = IP(overall_ip=ip, publicflag_count=1)
+            new_ip.set_publicflag_ip([publicflag_ip])
+            new_ip.save()
+
+def setAuthFlag(request):
+    if request.method == "POST":
+        ip = request.POST.get('ip')
+        user = request.POST.get('user')
+        existing_ip = IP.objects.filter(overall_ip=ip).first()
+        if existing_ip:
+            existing_ip.authflag_count += 1
+            existing_ip.set_authflag_accounts(existing_ip.get_authflag_accounts() + [user])
+            existing_ip.save()
+        else:
+            new_ip = IP(overall_ip=ip, authflag_count=1)
+            new_ip.set_authflag_accounts([user])
+            new_ip.save()
+   
 
 
 
