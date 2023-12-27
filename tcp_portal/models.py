@@ -11,7 +11,8 @@ class UserProfile(models.Model):
 
 
 class IP(models.Model):
-    overall_ip = models.GenericIPAddressField(unique=True, null=False, blank=False, default='0.0.0.0')
+    overall_ip = models.CharField(max_length=64, unique=True, null=False, blank=False, default='0.0.0.0')
+
 
     # Fields for authflag
     authflag_count = models.IntegerField(default=0, null=True, blank=True)
