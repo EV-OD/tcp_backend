@@ -179,7 +179,7 @@ class ProcessTreeViewApp:
                             value=str(value.split("--")[0]).strip()
                             path=str(entry.get("path")).strip()
                             if value == path :
-                                self.text_area2.insert(tk.END, f"Redg Found for {value} in {key_path}")
+                                self.text_area2.insert(tk.END, f"Redg Found for \n{value} in \n{key_path}")
 
                 except FileNotFoundError:
                     pass  # No more values

@@ -2,3 +2,4 @@ myenv
 ipd.db
 test_server.py
 __pycache__
+ipd.db-journal

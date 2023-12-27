@@ -10,6 +10,7 @@ from process_tree import ProcessTreeViewApp
 import threading
 from win10toast_click import ToastNotifier
 import signal
+import hashlib
 
 class ResettableStorage:
     def __init__(self):
@@ -35,6 +36,17 @@ class ResettableStorage:
 
 
 
+def hash_string(input_string):
+    # Create a new SHA-256 hash object
+    sha256_hash = hashlib.sha256()
+
+    # Update the hash object with the bytes representation of the input string
+    sha256_hash.update(input_string.encode('utf-8'))
+
+    # Get the hexadecimal representation of the hash
+    hashed_string = sha256_hash.hexdigest()
+
+    return hashed_string
 
 def process_tree(pid):
     def gg():
@@ -111,7 +123,7 @@ def main():
                                 response=False
                                 break
                         else:
-                            response=check_ip(conn.raddr.ip) 
+                            response=check_ip(hash_string(conn.raddr.ip)) 
                         if response==True:
                             
                             # Add data to the storage
