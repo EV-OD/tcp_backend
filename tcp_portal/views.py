@@ -11,6 +11,8 @@ from django.db import IntegrityError
 from .models import IP
 import json
 from django.forms.models import model_to_dict
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 
@@ -85,12 +87,16 @@ def searchPage(request, ip):
     return render(request, 'search.html', {'ip': ip, 'flag': flag})
   else:
     return render(request, 'search.html', {'ip': ip, 'flag': 0})
+  
+
+@csrf_exempt
 def autoflagPage(request):
     if request.method == "POST":
         request_data = json.loads(request.body.decode('utf-8'))
 
         ip = request_data.get('ip')
         autoflag_ip = request_data.get('autoflag_ip')
+        print(ip, autoflag_ip)
         existing_ip = IP.objects.filter(overall_ip=ip).first()
         if existing_ip:
             existing_ip.autoflag_count += 1
