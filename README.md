@@ -45,6 +45,8 @@ c. Footprints
 ## Usage
    1. User Authentication
 
+     
+     ```bash
     - Visit the index.html as home page.
   
     - After that visit register page at http://127.0.0.1:8000/register/  to create a new account
@@ -56,16 +58,20 @@ c. Footprints
     - You can log out by visiting http://127.0.0.1:8000/logout/.
 
 2. Ip Address Tracking
-
+      
+     ```bash
     - Visit the report page at http://127.0.0.1:8000/report/ to view and interact with IP tracking features.
   
     - Explore the different functionalities such as autoflagging IPs, setting public flags, setting authentication flags, retrieving flags, and   checking if an IP exists.
 
 ## Contributions
-
+    
+     ```bash
   - If you'd like to contribute to the project, please follow the guidelines in the CONTRIBUTING.md file.
 
 ## License
+     
+     ```bash
    - Review the license details in the LICENSE file.
 
 
