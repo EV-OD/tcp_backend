@@ -12,6 +12,7 @@ from .models import IP
 import json
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_exempt
+from .utils import hash_string
 
 
 
@@ -94,10 +95,11 @@ def autoflagPage(request):
     if request.method == "POST":
         request_data = json.loads(request.body.decode('utf-8'))
 
-        ip = request_data.get('ip')
         autoflag_ip = request_data.get('autoflag_ip')
-        print(ip, autoflag_ip)
-        existing_ip = IP.objects.filter(overall_ip=ip).first()
+        ip = request_data.get('ip')
+
+        hashed_ip = hash_string(ip)
+        existing_ip = IP.objects.filter(overall_ip=hashed_ip).first()
         if existing_ip:
             existing_ip.autoflag_count += 1
             existing_ip.set_autoflag_ip(existing_ip.get_autoflag_ip() + [autoflag_ip])
@@ -116,51 +118,85 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+@csrf_exempt
 def setPublicFlag(request):
     if request.method == "POST":
-        request_data = json.loads(request.body.decode('utf-8'))
+        try:
+            request_data = json.loads(request.body.decode('utf-8'))
 
-        ip = request_data.get('ip')
-        publicflag_ip = get_client_ip(request)
-        existing_ip = IP.objects.filter(overall_ip=ip).first()
-        if existing_ip:
-            existing_ip.publicflag_count += 1
-            existing_ip.set_publicflag_ip(existing_ip.get_publicflag_ip() + [publicflag_ip])
-            existing_ip.save()
-        else:
-            new_ip = IP(overall_ip=ip, publicflag_count=1)
-            new_ip.set_publicflag_ip([publicflag_ip])
-            new_ip.save()
-        return HttpResponse(status=200)
+            ip = request_data.get('ip')
+            publicflag_ip = get_client_ip(request)  # Make sure to define or import get_client_ip
+            hashed_ip = hash_string(ip)  # Hash the IP before querying the database
 
+            existing_ip = IP.objects.filter(overall_ip=hashed_ip).first()
+
+            if existing_ip:
+                # Update existing IP entry
+                existing_ip.publicflag_count += 1
+                existing_ip.set_publicflag_ip(existing_ip.get_publicflag_ip() + [publicflag_ip])
+                existing_ip.save()
+            else:
+                # Create a new IP entry
+                new_ip = IP(overall_ip=hashed_ip, publicflag_count=1)
+                new_ip.set_publicflag_ip([publicflag_ip])
+                new_ip.save()
+
+            return HttpResponse(status=200)
+
+        except json.JSONDecodeError:
+            return HttpResponse(status=400, content="Invalid JSON data")
+
+    return HttpResponse(status=405)  # Method Not Allowed for non-POST requests
+
+@csrf_exempt
 def setAuthFlag(request):
     if request.method == "POST":
-        request_data = json.loads(request.body.decode('utf-8'))
+        try:
+            request_data = json.loads(request.body.decode('utf-8'))
 
-        user = request.user
-        ip = request_data.get('ip')
-        existing_ip = IP.objects.filter(overall_ip=ip).first()
-        if existing_ip:
-            existing_ip.authflag_count += 1
-            existing_ip.set_authflag_accounts(existing_ip.get_authflag_accounts() + [user])
-            existing_ip.save()
-        else:
-            new_ip = IP(overall_ip=ip, authflag_count=1)
-            new_ip.set_authflag_accounts([user])
-            new_ip.save()
-        return HttpResponse(status=200)
+            user = request.user
+            ip = request_data.get('ip')
+            hashed_ip = hash_string(ip)  # Hash the IP before querying the database
+
+            existing_ip = IP.objects.filter(overall_ip=hashed_ip).first()
+
+            if existing_ip:
+                # Update existing IP entry
+                existing_ip.authflag_count += 1
+                existing_ip.set_authflag_accounts(existing_ip.get_authflag_accounts() + [user])
+                existing_ip.save()
+            else:
+                # Create a new IP entry
+                new_ip = IP(overall_ip=hashed_ip, authflag_count=1)
+                new_ip.set_authflag_accounts([user])
+                new_ip.save()
+
+            return HttpResponse(status=200)
+
+        except json.JSONDecodeError:
+            return HttpResponse(status=400, content="Invalid JSON data")
+
+    return HttpResponse(status=405)  # Method Not Allowed for non-POST requests
 
 @csrf_exempt
 def getFlag(request):
     if request.method == "POST":
-        request_data = json.loads(request.body.decode('utf-8'))
+        try:
+            request_data = json.loads(request.body.decode('utf-8'))
 
-        ip = request_data.get('ip')
-        existing_ip = IP.objects.filter(overall_ip=ip).first()
-        if existing_ip:
-            return HttpResponse(json.dumps(model_to_dict(existing_ip)))
-        else:
-            return HttpResponse(0)
+            ip = request_data.get('ip')
+            hashed_ip = hash_string(ip)  # Hash the IP before querying the database
+
+            existing_ip = IP.objects.filter(overall_ip=hashed_ip).first()
+            if existing_ip:
+                return HttpResponse(json.dumps(model_to_dict(existing_ip)))
+            else:
+                return HttpResponse("0")
+
+        except json.JSONDecodeError:
+            return HttpResponse(status=400, content="Invalid JSON data")
+
+    return HttpResponse(status=405)  # Method Not Allowed for non-POST requests
         
 @csrf_exempt
 def checkIp(request):
@@ -175,12 +211,11 @@ def checkIp(request):
             return HttpResponse("false")
 
 def getFlagWithIp(ip):
-    existing_ip = IP.objects.filter(overall_ip=ip).first()
+    existing_ip = IP.objects.filter(overall_ip=hash_string(ip)).first()
     if existing_ip:
         return model_to_dict(existing_ip)
     else:
         return False
-
     
 
 

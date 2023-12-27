@@ -1,3 +1,6 @@
+body {
+  background-color: whitesmoke;
+}
 .center_container {
   width: 100%;
   display: flex;
@@ -49,11 +52,19 @@
 .row {
   display: flex;
   width: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 .row .column {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 50%;
+}
+p strong {
+  background-color: rgb(105, 105, 255);
+  padding: 5px;
+  border-radius: 10px;
+  color: white;
 }
 .column {
   background-color: #f2f2f2;
@@ -61,4 +72,35 @@
   border-radius: 4px;
   padding: 16px;
   margin: 16px 0;
+}
+
+.center_container h2 {
+  color: #333;
+}
+
+.flag-information,
+.explanation {
+  margin-bottom: 20px;
+}
+
+.center_container h3 {
+  color: #555;
+}
+
+.center_container p {
+  margin: 5px 0;
+}
+
+.danger-bar {
+  height: 20px;
+  background-color: #ff5555;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+  border-radius: 5px;
+}
+.danger-level-container {
+  width: 300px;
+  margin: 0 auto;
+  background-color: rgb(216, 214, 214);
+  border-radius: 5px;
 }

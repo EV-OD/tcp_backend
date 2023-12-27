@@ -1,82 +1,147 @@
 {% extends "base.html" %} {% block content %} {% load static %}
-<link rel="stylesheet" href="{% static 'search.css' %}" />
-<script defer src="{% static 'js/search.js' %}"></script>
+<body>
+  <link rel="stylesheet" href="{% static 'search.css' %}" />
+  <script defer src="{% static 'js/search.js' %}"></script>
 
-<div class="center_container">
-  <div class="form_wrapper">
-    <div class="search_form">
-      <!-- <h3>TCP Portal</h3> -->
-      <div class="ip_form">
-        <input type="text" id="ip" name="ip" value="{{ ip }}" required /><br />
-        <input type="submit" value="Search" />
+  <div class="center_container">
+    <div class="form_wrapper">
+      <div class="search_form">
+        <!-- <h3>TCP Portal</h3> -->
+        <div class="ip_form">
+          <input
+            type="text"
+            id="ip"
+            name="ip"
+            value="{{ ip }}"
+            required
+          /><br />
+          <input type="submit" value="Search" />
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="column">
-        <h2>Our Database</h2>
-        <!-- {{flag}} -->
-        <p>IP: {{flag.overall_ip}}</p>
-        <p>Auth Flag Count: {{flag.authflag_count}}</p>
-        <p>Public Flag Count: {{flag.publicflag_count}}</p>
-        <p>Auto Flag Count: {{flag.autoflag_count}}</p>
+      <div class="row">
+        <div class="column">
+          <div class="flag-information">
+            <h3>Flag Information</h3>
+            <p>IP Address: <strong>{{ip}}</strong></p>
+            <p>
+              Number of Flags Set by Authorized Users: {{flag.authflag_count}}
+            </p>
+            <p>Number of Flags Set by the Public: {{flag.publicflag_count}}</p>
+            <p>Number of Flags Set Automatically: {{flag.autoflag_count}}</p>
+            <h2>Danger Level</h2>
+            <div class="danger-level-container">
+              <div class="danger-bar" id="dangerBar"></div>
+            </div>
+            <p id="dangerPercentage"></p>
+          </div>
+
+          <!-- Additional Details or Explanations -->
+        </div>
+        <div class="column">
+          <div class="explanation">
+            <h3>Explanation</h3>
+            <p>
+              The information above represents the current state of our
+              database. Each IP address may have flags set by different sources,
+              such as authorized users, the public, or our automated system.
+            </p>
+            <p>
+              The counts indicate how many times each type of flag has been set
+              for the given IP address. This information is crucial for
+              assessing the potential risks or issues associated with specific
+              IP addresses in our system.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<script>
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === name + "=") {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
+  <script>
+    function calculateDangerPercentage(
+      authFlagCount,
+      publicFlagCount,
+      autoFlagCount
+    ) {
+      const authFlagWeight = 0.2;
+      const publicFlagWeight = 0.08;
+      const autoFlagWeight = 0.1;
+      const dangerPercentage =
+        (authFlagCount * authFlagWeight +
+          publicFlagCount * publicFlagWeight +
+          autoFlagCount * autoFlagWeight) /
+        3; // Assuming equal weights
+      return dangerPercentage * 100;
+    }
+    const authFlagCount = "{{flag.authflag_count}}";
+    const publicFlagCount = "{{flag.publicflag_count}}";
+    const autoFlagCount = "{{flag.autoflag_count}}";
+    const dangerPercentage = calculateDangerPercentage(
+      parseInt(authFlagCount),
+      parseInt(publicFlagCount),
+      parseInt(autoFlagCount)
+    );
+
+    // Update Danger Level UI
+    const dangerBar = document.getElementById("dangerBar");
+    const dangerPercentageText = document.getElementById("dangerPercentage");
+
+    dangerBar.style.width = `${dangerPercentage}%`;
+    dangerPercentageText.textContent = `Danger Level: ${dangerPercentage.toFixed(
+      2
+    )}%`;
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
         }
       }
+      return cookieValue;
     }
-    return cookieValue;
-  }
-  const csrftoken = getCookie("csrftoken");
+    const csrftoken = getCookie("csrftoken");
 
-  let auth = "{{request.user.is_authenticated}}";
-  const button = document.querySelector("input[type=button]");
-  button.addEventListener("click", () => {
-    const ipElt = document.querySelector("input[type=text]");
-    const commentElt = document.querySelector("textarea");
-    // const imageElt = document.querySelector("input[type=file]");
+    let auth = "{{request.user.is_authenticated}}";
+    const button = document.querySelector("input[type=button]");
+    button.addEventListener("click", () => {
+      const ipElt = document.querySelector("input[type=text]");
+      const commentElt = document.querySelector("textarea");
+      // const imageElt = document.querySelector("input[type=file]");
 
-    const ip = ipElt.value;
-    const comment = commentElt.value;
-    if (auth == "True") {
-      fetch("/setauthflag/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": csrftoken,
-        },
-        mode: "same-origin",
-        body: JSON.stringify({ ip }),
-      });
-    } else {
-      let user_ip = "{{request.user}}";
-      fetch("/setpublicflag/", {
-        method: "POST",
-        headers: {
-          "X-CSRFToken": csrftoken,
+      const ip = ipElt.value;
+      const comment = commentElt.value;
+      if (auth == "True") {
+        fetch("/setauthflag/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken,
+          },
+          mode: "same-origin",
+          body: JSON.stringify({ ip }),
+        });
+      } else {
+        let user_ip = "{{request.user}}";
+        fetch("/setpublicflag/", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": csrftoken,
 
-          "Content-Type": "application/json",
-        },
-        mode: "same-origin",
+            "Content-Type": "application/json",
+          },
+          mode: "same-origin",
 
-        body: JSON.stringify({ ip }),
-      });
-    }
+          body: JSON.stringify({ ip }),
+        });
+      }
 
-    // const image = imageElt.files[0];
-  });
-</script>
-
+      // const image = imageElt.files[0];
+    });
+  </script>
+</body>
 {% endblock %}
