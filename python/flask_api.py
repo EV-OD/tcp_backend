@@ -128,6 +128,7 @@ def get_processes():
 
             # Avoid repeating parent processes
             parent_pids = set()
+            parent_pids.add(pid)
             parent_process = get_all_parent_processes(pid)
             for parent in parent_process:
                 if parent.pid not in parent_pids:
@@ -141,18 +142,21 @@ def get_processes():
                         "isRunning": str(parent.is_running()),
                         "duration": 0  # You may need to calculate the duration based on your requirements
                     })
-
+            children_pids=set()
+            children_pids.add(pid)
             children = process.children(recursive=True)
             for child in children:
-                p["sub_process"].append({
-                    "pid": child.pid,
-                    "process_name": child.name(),
-                    "path": "denied",
-                    "start": time.mktime(time.localtime(child.create_time())),
-                    "connection": get_valid_remote_ips(child.pid),
-                    "isRunning": str(child.is_running()),
-                    "duration": 0  # You may need to calculate the duration based on your requirements
-                })
+                if child.pid not in children_pids:
+                    children_pids.add(child.pid)
+                    p["sub_process"].append({
+                        "pid": child.pid,
+                        "process_name": child.name(),
+                        "path": "denied",
+                        "start": time.mktime(time.localtime(child.create_time())),
+                        "connection": get_valid_remote_ips(child.pid),
+                        "isRunning": str(child.is_running()),
+                        "duration": 0  # You may need to calculate the duration based on your requirements
+                    })
 
         return jsonify(json.loads(json.dumps(process_data, default=custom_encoder)))
 
