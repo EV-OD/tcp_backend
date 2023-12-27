@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
   <body>
+    <nav class="navbar">
+      <h2>TCP Portal</h2>
+      <div class="menu">
+        <a href="{% url 'loginPage' %}">Login</a>
+        <a href="{% url 'registerPage' %}">Register</a>
+      </div>
+      {% comment %}
+      <p>Welcome, Rabin</p>
+      {% endcomment %}
+    </nav>
     <div class="wrapper">
       <div class="container">
         <h3>Enter IP Address</h3>
