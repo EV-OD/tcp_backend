@@ -73,6 +73,14 @@
       }
       .title-bar {
         width: 100%;
+        display: grid;
+        grid-template-columns: 3fr repeat(3, 1fr);
+        padding-block: 10px;
+        margin-inline: 30px;
+        padding-inline: 10px;
+      }
+      .title-bar .title-head {
+        transform: translateX(-40px);
       }
     </style>
   </head>
@@ -81,9 +89,9 @@
     <h4>Process</h4>
     <div class="title-bar">
       <span>Process Name</span>
-      <span>PID</span>
-      <span>Status</span>
-      <span>Connections</span>
+      <span class="title-head">PID</span>
+      <span class="title-head">Status</span>
+      <span class="title-head">Connections</span>
     </div>
     <div id="processContainer"></div>
 
