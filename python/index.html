@@ -68,6 +68,9 @@
       .subprocess-container {
         margin-left: 30px;
       }
+      .parentCt {
+        background-color: rgb(156, 156, 156);
+      }
     </style>
   </head>
   <body>
@@ -76,113 +79,125 @@
     <div id="processContainer"></div>
 
     <script>
-      // Sample data representing subprocesses
-      const processData = [
-        {
-          process_name: "Process 1",
-          pid: "8653",
-          isRunning: true,
-          logo_path: "/img/process1.png",
-          subprocesses: [
-            {
-              pid: "123",
-              process_name: "Subprocess 1.1",
-              isRunning: true,
-              logo_path: "/img/subprocess1.1.png",
-              subprocesses: [
-                {
-                  process_name: "Sub-subprocess 1.1.1",
-                  pid: "456",
-                  isRunning: true,
-                  logo_path: "/img/subsubprocess1.1.1.png",
-                  subprocesses: [],
-                },
-                {
-                  process_name: "Sub-subprocess 1.1.2",
-                  pid: "457",
-                  isRunning: true,
-                  logo_path: "/img/subsubprocess1.1.2.png",
-                  subprocesses: [],
-                },
-              ],
-            },
-            {
-              process_name: "Subprocess 1.2",
-              pid: "124",
-              isRunning: true,
-              logo_path: "/img/subprocess1.2.png",
-              subprocesses: [],
-            },
-          ],
-        },
-        {
-          process_name: "Process 2",
-          pid: "8654",
-          isRunning: true,
-          logo_path: "/img/process2.png",
-          subprocesses: [
-            {
-              process_name: "Subprocess 2.1",
-              pid: "125",
-              isRunning: true,
-              logo_path: "/img/subprocess2.1.png",
-              subprocesses: [],
-            },
-            {
-              process_name: "Subprocess 2.2",
-              pid: "126",
-              isRunning: true,
-              logo_path: "/img/subprocess2.2.png",
-              subprocesses: [
-                {
-                  process_name: "Sub-subprocess 2.2.1",
-                  pid: "458",
-                  isRunning: true,
-                  logo_path: "/img/subsubprocess2.2.1.png",
-                  subprocesses: [],
-                },
-              ],
-            },
-          ],
-        },
-      ];
-
-      // Function to recursively generate HTML for subprocesses
-      function generateSubprocessHTML(subprocess) {
-        let html = `<li><div class="toggle-btn process" onclick="toggleSubprocess(this)">
-            <div class="name">${subprocess.process_name}</div class="name">
-            <!-- <span>${subprocess.logo_path}</span> -->
-            <span>${subprocess.pid}</span>
-            <span>${subprocess.isRunning}</span>
-            </div>`;
-        console.log(
-          Object.keys(subprocess).filter((key) => key !== "sub_process")
-        );
-
-        if (subprocess.subprocesses && subprocess.subprocesses.length > 0) {
-          html += `<div class="process" style="display: none;"><ul class="subprocess-list">`;
-          subprocess.subprocesses.forEach((sub) => {
-            html += generateSubprocessHTML(sub);
-          });
-          html += `</ul></div>`;
-        }
-
-        html += `</li>`;
-        return html;
-      }
-
-      // Function to toggle the visibility of a subprocess
       function toggleSubprocess(button) {
         const processDiv = button.nextElementSibling;
         processDiv.style.display =
           processDiv.style.display === "none" ? "block" : "none";
       }
+      // Sample data representing subprocesses
+      // let processData = [
+      //   {
+      //     process_name: "Process 1",
+      //     pid: "8653",
+      //     isRunning: true,
+      //     logo_path: "/img/process1.png",
+      //     subprocesses: [
+      //       {
+      //         pid: "123",
+      //         process_name: "Subprocess 1.1",
+      //         isRunning: true,
+      //         logo_path: "/img/subprocess1.1.png",
+      //         subprocesses: [
+      //           {
+      //             process_name: "Sub-subprocess 1.1.1",
+      //             pid: "456",
+      //             isRunning: true,
+      //             logo_path: "/img/subsubprocess1.1.1.png",
+      //             subprocesses: [],
+      //           },
+      //           {
+      //             process_name: "Sub-subprocess 1.1.2",
+      //             pid: "457",
+      //             isRunning: true,
+      //             logo_path: "/img/subsubprocess1.1.2.png",
+      //             subprocesses: [],
+      //           },
+      //         ],
+      //       },
+      //       {
+      //         process_name: "Subprocess 1.2",
+      //         pid: "124",
+      //         isRunning: true,
+      //         logo_path: "/img/subprocess1.2.png",
+      //         subprocesses: [],
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     process_name: "Process 2",
+      //     pid: "8654",
+      //     isRunning: true,
+      //     logo_path: "/img/process2.png",
+      //     subprocesses: [
+      //       {
+      //         process_name: "Subprocess 2.1",
+      //         pid: "125",
+      //         isRunning: true,
+      //         logo_path: "/img/subprocess2.1.png",
+      //         subprocesses: [],
+      //       },
+      //       {
+      //         process_name: "Subprocess 2.2",
+      //         pid: "126",
+      //         isRunning: true,
+      //         logo_path: "/img/subprocess2.2.png",
+      //         subprocesses: [
+      //           {
+      //             process_name: "Sub-subprocess 2.2.1",
+      //             pid: "458",
+      //             isRunning: true,
+      //             logo_path: "/img/subsubprocess2.2.1.png",
+      //             subprocesses: [],
+      //           },
+      //         ],
+      //       },
+      //     ],
+      //   },
+      // ];
 
-      // Render subprocesses to the HTML container
-      const processContainer = document.getElementById("processContainer");
-      processContainer.innerHTML = `<ul class="subprocess-list">${processData
-        .map(generateSubprocessHTML)
-        .join("")}</ul>`;
+      fetch("http://127.0.0.1:5000/api/processes")
+        .then((response) => response.json())
+        .then((data) => {
+          let processData = data;
+          function generateSubprocessHTML(subprocess, ct) {
+            console.log(subprocess);
+            let html = `<li><div class="toggle-btn process ${
+              ct ? ct : ""
+            }" onclick="toggleSubprocess(this)">
+            <div class="name">${subprocess.process_name}</div class="name">
+            <span>${subprocess.pid}</span>
+            <span>${subprocess.isRunning ? "Running" : "Stopped"}</span>
+            <span>${subprocess.start}</span>
+            <span>${subprocess.connection.map((ip) => ip.ip).join(", ")}</span>
+            </div>`;
+
+            if (
+              (subprocess.sub_process && subprocess.sub_process.length > 0) ||
+              (subprocess.parent_process &&
+                subprocess.parent_process.length > 0)
+            ) {
+              html += `<div class="process" style="display: block;"><ul class="subprocess-list">`;
+              subprocess.sub_process.forEach((sub) => {
+                html += generateSubprocessHTML(sub);
+              });
+              subprocess.parent_process.forEach((sub) => {
+                html += generateSubprocessHTML(sub, "parentCt");
+              });
+              html += `</ul></div>`;
+            }
+
+            html += `</li>`;
+            return html;
+          }
+
+          // Function to toggle the visibility of a subprocess
+
+          // Render subprocesses to the HTML container
+          const processContainer = document.getElementById("processContainer");
+          processContainer.innerHTML = `<ul class="subprocess-list">${processData
+            .map(generateSubprocessHTML)
+            .join("")}</ul>`;
+        });
     </script>
   </body>
 </html>
