@@ -15,7 +15,11 @@
             value="{{ ip }}"
             required
           /><br />
-          <input type="submit" value="Search" />
+          <input
+            onclick="location.replace(`/search/${ip.value}`)"
+            type="submit"
+            value="Search"
+          />
         </div>
       </div>
       <div class="row">
