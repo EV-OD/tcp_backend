@@ -34,6 +34,11 @@ class ProcessTreeViewApp:
         # Main column (process tree view)
         main_frame = tk.Frame(master)
         main_frame.pack(side=tk.LEFT, expand=True, fill='both')
+        main_label = tk.Label(main_frame, text="Registry Entries", font=("Arial", 14, "bold"))
+        main_label.pack()
+
+        heading_label = tk.Label(left_frame, text="Processes", font=("Arial", 14, "bold"))
+        heading_label.pack()
 
         self.text_area = scrolledtext.ScrolledText(left_frame, width=50, height=20)
         self.text_area.pack(expand=True, fill='both')
@@ -46,6 +51,9 @@ class ProcessTreeViewApp:
         # Right column
         right_frame = tk.Frame(master, width=100)
         right_frame.pack(side=tk.LEFT, fill='y')
+
+        heading_labelR = tk.Label(right_frame, text="Connections", font=("Arial", 14, "bold"))
+        heading_labelR.pack()
 
         self.text_area3 = scrolledtext.ScrolledText(right_frame, width=50, height=20)
         self.text_area3.pack(expand=True, fill='both')

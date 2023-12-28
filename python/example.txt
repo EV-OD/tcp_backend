@@ -1,0 +1,26 @@
+[
+  {
+    "pid": 123,
+    "process_name": "discord",
+    "logo_path": "/img",
+    "isRunning": "true",
+    "sub_process": [
+      {
+        "pid": 1234,
+        "process_name": "discord",
+        "logo_path": "/img",
+        "duration": 1,
+        "isRunning": "true",
+        "sub_process": []
+      },
+      {
+        "pid": 1235,
+        "process_name": "discord",
+        "logo_path": "/img",
+        "duration": 1,
+        "isRunning": "true",
+        "sub_process": []
+      }
+    ]
+  }
+]

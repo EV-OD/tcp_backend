@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Process Tree Viewer</title>
+  </head>
+  <body>
+    <div id="processTree">
+      <h2>Process Tree</h2>
+      <pre id="processTreeContent"></pre>
+    </div>
+
+    <div id="registryChanges">
+      <h2>Registry Changes</h2>
+      <pre id="registryChangesContent"></pre>
+    </div>
+
+    <div id="tcpConnections">
+      <h2>TCP Connections</h2>
+      <pre id="tcpConnectionsContent"></pre>
+    </div>
+
+    <!-- Include Eel JavaScript -->
+    <script type="text/javascript" src="/eel.js"></script>
+
+    <!-- Include your custom JavaScript -->
+    <script type="text/javascript">
+      // Call Python functions using Eel
+      eel.expose(updateProcessTree);
+      eel.expose(updateRegistryChanges);
+      eel.expose(updateTCPConnections);
+
+      function updateProcessTree(content) {
+        document.getElementById("processTreeContent").textContent = content;
+      }
+
+      function updateRegistryChanges(content) {
+        document.getElementById("registryChangesContent").textContent = content;
+      }
+
+      function updateTCPConnections(content) {
+        document.getElementById("tcpConnectionsContent").textContent = content;
+      }
+    </script>
+  </body>
+</html>

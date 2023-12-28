@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collapsible Subprocesses</title>
+    <style>
+      /* External CSS Styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+      }
+
+      .process {
+        margin-left: 20px;
+      }
+
+      .subprocess-list {
+        list-style-type: none;
+        padding-left: 20px;
+      }
+
+      .subprocess-list li {
+        margin-bottom: 5px;
+      }
+
+      .subprocess-list .toggle-btn {
+        cursor: pointer;
+        text-decoration: underline;
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Container for Processes -->
+    <div id="processContainer"></div>
+
+    <script>
+      // Sample data representing subprocesses
+      const processData = [
+        {
+          name: "Process 1",
+          pid: "8653",
+          subprocesses: [
+            {
+              pid: "123",
+              name: "Subprocess 1.1",
+              subprocesses: [
+                {
+                  name: "Sub-subprocess 1.1.1",
+                },
+                {
+                  name: "Sub-subprocess 1.1.2",
+                },
+              ],
+            },
+            {
+              name: "Subprocess 1.2",
+            },
+          ],
+        },
+        {
+          name: "Process 2",
+          subprocesses: [
+            {
+              name: "Subprocess 2.1",
+            },
+            {
+              name: "Subprocess 2.2",
+              subprocesses: [
+                {
+                  name: "Sub-subprocess 2.2.1",
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      // Function to recursively generate HTML for subprocesses
+      function generateSubprocessHTML(subprocess) {
+        let html = `<li><span class="toggle-btn" onclick="toggleSubprocess(this)">${subprocess.name}</span>`;
+
+        if (subprocess.subprocesses && subprocess.subprocesses.length > 0) {
+          html += `<div class="process" style="display: none;"><ul class="subprocess-list">`;
+          subprocess.subprocesses.forEach((sub) => {
+            html += generateSubprocessHTML(sub);
+          });
+          html += `</ul></div>`;
+        }
+
+        html += `</li>`;
+        return html;
+      }
+
+      // Function to toggle the visibility of a subprocess
+      function toggleSubprocess(button) {
+        const processDiv = button.nextElementSibling;
+        processDiv.style.display =
+          processDiv.style.display === "none" ? "block" : "none";
+      }
+
+      // Render subprocesses to the HTML container
+      const processContainer = document.getElementById("processContainer");
+      processContainer.innerHTML = `<ul class="subprocess-list">${processData
+        .map(generateSubprocessHTML)
+        .join("")}</ul>`;
+    </script>
+  </body>
+</html>
