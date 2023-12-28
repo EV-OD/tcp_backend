@@ -2,7 +2,6 @@ body {
   font-family: "Arial", sans-serif;
   background-color: whitesmoke;
   margin: 0;
-
 }
 
 .form-container {
@@ -40,4 +39,15 @@ input[type="button"] {
 
 input[type="button"]:hover {
   background-color: #45a049;
+}
+
+.success-message {
+  position: absolute;
+  top: 70px;
+  right: 0;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  text-align: center;
 }
