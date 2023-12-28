@@ -4,12 +4,22 @@
 
   <div class="form-container">
     {% csrf_token %}
-    <label for="ip">IP Address:</label><br />
-    <input type="text" id="ip" name="ip" required /><br />
-    <label for="comment">Comment:</label><br />
-    <textarea id="comment" name="comment" required></textarea><br />
-    <label for="image">Upload image:</label><br />
-    <input type="file" id="image" name="image" /><br />
+    <input
+      placeholder="IP Address:"
+      type="text"
+      id="ip"
+      name="ip"
+      required
+    /><br />
+    <textarea
+      placeholder="Comment"
+      id="comment"
+      name="comment"
+      required
+    ></textarea
+    ><br />
+    <label for="image">Insert image related to the report</label>
+    <input placeholder="Image" type="file" id="image" name="image" /><br />
     <input type="button" value="Submit" />
   </div>
   <script>
