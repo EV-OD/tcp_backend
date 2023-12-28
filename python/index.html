@@ -49,7 +49,7 @@
 
       .process {
         display: grid;
-        grid-template-columns: 3fr 1fr 1fr;
+        grid-template-columns: 3fr repeat(3, 1fr);
         align-items: center;
         margin: 10px;
         border: 1px solid #ddd;
@@ -71,11 +71,20 @@
       .parentCt {
         background-color: rgb(156, 156, 156);
       }
+      .title-bar {
+        width: 100%;
+      }
     </style>
   </head>
   <body>
     <!-- Container for Processes -->
     <h4>Process</h4>
+    <div class="title-bar">
+      <span>Process Name</span>
+      <span>PID</span>
+      <span>Status</span>
+      <span>Connections</span>
+    </div>
     <div id="processContainer"></div>
 
     <script>
@@ -160,15 +169,13 @@
         .then((data) => {
           let processData = data;
           function generateSubprocessHTML(subprocess, ct) {
-            console.log(subprocess);
             let html = `<li><div class="toggle-btn process ${
               ct ? ct : ""
             }" onclick="toggleSubprocess(this)">
             <div class="name">${subprocess.process_name}</div class="name">
             <span>${subprocess.pid}</span>
             <span>${subprocess.isRunning ? "Running" : "Stopped"}</span>
-            <span>${subprocess.start}</span>
-            <span>${subprocess.connection.map((ip) => ip.ip).join(", ")}</span>
+            <span>${subprocess.connection.map((ip) => ip).join(", ")}</span>
             </div>`;
 
             if (
