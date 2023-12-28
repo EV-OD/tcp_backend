@@ -46,7 +46,7 @@ def loginUser(request):
         return redirect('index')
     else:
       print("Someone tried to login.")
-      return redirect('index')
+      return render(request, 'login.html', {"error": "Invalid username or password."})
   else:
     return render(request, 'login.html')
 @csrf_protect
@@ -68,7 +68,7 @@ def registerUser(request):
             print("User with this username already exists.")
             # Handle the case where the user with the provided username already exists
             # You might want to display an error message or redirect back to the registration form
-            return render(request, 'registration_error.html')
+            return render(request, 'register.html')
         except Exception as e:
             print(f"Error creating user: {e}")
             return redirect('/')

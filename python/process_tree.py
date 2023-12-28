@@ -4,10 +4,6 @@ import psutil
 from datetime import datetime
 import winreg
 
-
-
-
-
 def get_all_parent_processes(process_id):
     processes = []
     try:
@@ -63,8 +59,7 @@ class ProcessTreeViewApp:
         update_button.pack(pady=10)
         update_button2 = tk.Button(left_frame, text="Fake Flag", **button_style)
         update_button2.pack(pady=10)
-        # Replace this with the desired process ID
-        self.target_process_id = pid  # Change to your specific process ID
+        self.target_process_id = pid
 
         self.processNames =  [ ]
         self.process_counts = {

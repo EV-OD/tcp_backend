@@ -127,7 +127,7 @@ def main():
                             # Add data to the storage
                             if storage.check_data(conn.pid):
                                 toaster = ToastNotifier() 
-                                toaster.show_toast(title=f"Moye Moye with {process_name}",duration=2,threaded=True,callback_on_click=process_tree(conn.pid) )
+                                toaster.show_toast(title=f"Flag found in {process_name}",duration=2,threaded=True,callback_on_click=process_tree(conn.pid) )
                                 storage.add_data(conn.pid)
 
                             # view_subprocesses_of_pid(conn.pid)

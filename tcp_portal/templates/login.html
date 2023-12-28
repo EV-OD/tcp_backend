@@ -13,8 +13,9 @@
       <div class="container">
         <h3>Login Page</h3>
         <form action="{% url 'login' %}" method="post">
-          {% csrf_token %}
-
+          {% csrf_token %} {% if error %}
+          <p style="color: red">{{ error }}</p>
+          {% endif %}
           <input
             type="text"
             id="username"
