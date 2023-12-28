@@ -15,7 +15,7 @@ import hashlib
 class ResettableStorage:
     def __init__(self):
         self.data = set()
-        self.reset_interval = 120  # 2 minutes in seconds
+        self.reset_interval = 10  # 2 minutes in seconds
         self.reset_timer = threading.Timer(self.reset_interval, self.reset_storage)
         self.reset_timer.start()
 
@@ -126,9 +126,10 @@ def main():
                             
                             # Add data to the storage
                             if storage.check_data(conn.pid):
-                                storage.add_data(conn.pid)
                                 toaster = ToastNotifier() 
                                 toaster.show_toast(title=f"Moye Moye with {process_name}",duration=2,threaded=True,callback_on_click=process_tree(conn.pid) )
+                                storage.add_data(conn.pid)
+
                             # view_subprocesses_of_pid(conn.pid)
                         
                 except Exception:

@@ -125,6 +125,23 @@ def get_processes():
         for p in process_data:
             pid = p["pid"]
             process = psutil.Process(pid)
+
+            # Avoid repeating parent processes
+            parent_pids = set()
+            parent_process = get_all_parent_processes(pid)
+            for parent in parent_process:
+                if parent.pid not in parent_pids:
+                    parent_pids.add(parent.pid)
+                    p["parent_process"].append({
+                        "pid": parent.pid,
+                        "process_name": parent.name(),
+                        "path": "denied",
+                        "start": time.mktime(time.localtime(parent.create_time())),
+                        "connection": get_valid_remote_ips(parent.pid),
+                        "isRunning": str(parent.is_running()),
+                        "duration": 0  # You may need to calculate the duration based on your requirements
+                    })
+
             children = process.children(recursive=True)
             for child in children:
                 p["sub_process"].append({
@@ -134,18 +151,6 @@ def get_processes():
                     "start": time.mktime(time.localtime(child.create_time())),
                     "connection": get_valid_remote_ips(child.pid),
                     "isRunning": str(child.is_running()),
-                    "duration": 0  # You may need to calculate the duration based on your requirements
-                })
-            
-            parent_process=get_all_parent_processes(pid)
-            for parent in parent_process:
-                p["parent_process"].append({
-                    "pid": parent.pid,
-                    "process_name": parent.name(),
-                    "path": "denied",
-                    "start": time.mktime(time.localtime(parent.create_time())),
-                    "connection": get_valid_remote_ips(parent.pid),
-                    "isRunning": str(parent.is_running()),
                     "duration": 0  # You may need to calculate the duration based on your requirements
                 })
 
